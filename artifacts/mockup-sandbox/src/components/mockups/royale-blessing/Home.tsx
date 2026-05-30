@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,11 +14,19 @@ import {
   Users, 
   Mic, 
   Mail,
+  Phone,
   ArrowRight
 } from "lucide-react";
 
+const HERO_IMAGES = [
+  "/__mockup/images/rbe-clapperboard.png",
+  "/__mockup/images/rbe-hero.png"
+];
+
 export function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [heroIndex, setHeroIndex] = useState(0);
+  const [heroFading, setHeroFading] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -32,15 +40,28 @@ export function Home() {
       },
       { threshold: 0.1 }
     );
-
     const elements = document.querySelectorAll(".scroll-reveal");
     elements.forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroFading(true);
+      setTimeout(() => {
+        setHeroIndex(prev => (prev + 1) % HERO_IMAGES.length);
+        setHeroFading(false);
+      }, 1000);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div 
+    <div
       ref={containerRef}
       className="min-h-screen bg-[#000000] text-white font-['Inter'] selection:bg-[#C9A84C] selection:text-black overflow-x-hidden"
     >
@@ -55,6 +76,61 @@ export function Home() {
         .delay-300 { transition-delay: 300ms; }
         .delay-400 { transition-delay: 400ms; }
         .delay-500 { transition-delay: 500ms; }
+
+        .gold-metallic {
+          background: linear-gradient(
+            105deg,
+            #7d5a10 0%,
+            #C9A84C 20%,
+            #F5DFA0 40%,
+            #e8c56a 50%,
+            #F5DFA0 60%,
+            #C9A84C 80%,
+            #7d5a10 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: gold-shine 4s linear infinite;
+        }
+        @keyframes gold-shine {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
+
+        .service-item {
+          position: relative;
+          cursor: default;
+        }
+        .service-tooltip {
+          position: absolute;
+          bottom: calc(100% + 10px);
+          left: 50%;
+          transform: translateX(-50%);
+          width: 240px;
+          background: #0D1A3A;
+          border: 1px solid #C9A84C;
+          padding: 14px 16px;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.25s ease, transform 0.25s ease;
+          transform: translateX(-50%) translateY(6px);
+          z-index: 50;
+        }
+        .service-item:hover .service-tooltip {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+        .service-tooltip::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          transform: translateX(-50%);
+          border: 6px solid transparent;
+          border-top-color: #C9A84C;
+        }
       `}</style>
 
       {/* Navigation */}
@@ -71,40 +147,57 @@ export function Home() {
             <a href="/__mockup/preview/royale-blessing/PerformingArts" className="hover:text-[#C9A84C] transition-colors">RBE Performing Arts</a>
             <a href="#contact" className="hover:text-[#C9A84C] transition-colors">Contact</a>
           </div>
-          <Button className="bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold rounded-none px-6 uppercase tracking-wider text-sm">
+          <button
+            onClick={() => scrollTo("contact")}
+            className="bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold px-6 py-2 uppercase tracking-wider text-sm transition-colors"
+          >
             Contact Us
-          </Button>
+          </button>
         </div>
       </nav>
 
       {/* Hero Section */}
       <section className="relative min-h-[100dvh] flex items-center justify-center pt-20">
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <div className="absolute inset-0 bg-black/70 z-10" />
-          <img 
-            src="/__mockup/images/rbe-clapperboard.png" 
-            alt="Clapperboard with blue smoke" 
-            className="w-full h-full object-cover"
-          />
+          {HERO_IMAGES.map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt="Hero background"
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                opacity: i === heroIndex ? (heroFading ? 0 : 1) : 0,
+                transition: "opacity 1.2s ease-in-out",
+                zIndex: i === heroIndex ? 1 : 0
+              }}
+            />
+          ))}
         </div>
-        
+
         <div className="relative z-20 max-w-5xl mx-auto px-6 text-center scroll-reveal opacity-0 translate-y-8">
-          <h2 className="text-[#C9A84C] font-semibold tracking-[0.3em] uppercase text-sm mb-6">
+          <h2 className="gold-metallic font-semibold tracking-[0.3em] uppercase text-sm mb-6 inline-block">
             CREATE · INSPIRE · ENTERTAIN
           </h2>
           <h1 className="font-['Cormorant_Garamond'] text-6xl md:text-8xl lg:text-9xl font-semibold text-white leading-none mb-8 tracking-tight drop-shadow-2xl">
-            Royale Blessing <br/> Entertainment
+            Royale Blessing <br /> Entertainment
           </h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed mb-12">
             A full-service production company spanning theatre, film, television, and digital platforms.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button size="lg" className="w-full sm:w-auto bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold rounded-none text-lg h-14 px-8 uppercase tracking-wider">
+            <button
+              onClick={() => scrollTo("projects")}
+              className="w-full sm:w-auto bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold text-lg h-14 px-8 uppercase tracking-wider transition-colors"
+            >
               Explore Our Work
-            </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white/10 rounded-none text-lg h-14 px-8 uppercase tracking-wider">
+            </button>
+            <button
+              onClick={() => scrollTo("contact")}
+              className="w-full sm:w-auto border border-white text-white hover:bg-white/10 text-lg h-14 px-8 uppercase tracking-wider transition-colors"
+            >
               Work With Us
-            </Button>
+            </button>
           </div>
         </div>
       </section>
@@ -125,17 +218,18 @@ export function Home() {
                 <p>
                   Founded by best friends and award-winning actresses Tiffany Rebecca Royale and Malika Blessing — who met as theatre majors at Grambling State University and built their vision into reality in Los Angeles.
                 </p>
-                <p className="text-[#C9A84C] font-semibold uppercase tracking-widest text-sm mt-8">
+                <p className="gold-metallic font-semibold uppercase tracking-widest text-sm mt-8 inline-block">
                   Create · Inspire · Entertain
                 </p>
               </div>
             </div>
             <div className="order-1 lg:order-2 scroll-reveal delay-200 opacity-0 translate-y-8">
-              <div className="relative aspect-[4/5] overflow-hidden border border-[#C9A84C]/30 p-2">
-                <img 
-                  src="/__mockup/images/rbe-film-masks.png" 
-                  alt="Film projectors and masks" 
-                  className="w-full h-full object-cover"
+              <div className="relative overflow-hidden border border-[#C9A84C]/30 p-2 bg-black">
+                <img
+                  src="/__mockup/images/rbe-film-masks.png"
+                  alt="Film projectors and theater masks"
+                  className="w-full h-full object-contain"
+                  style={{ maxHeight: "500px", display: "block", margin: "0 auto" }}
                 />
               </div>
             </div>
@@ -154,45 +248,50 @@ export function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {/* Tiffany */}
             <div className="group scroll-reveal opacity-0 translate-y-8 bg-[#0F0F0F] border border-[#C9A84C]/30 overflow-hidden hover:border-[#C9A84C] transition-colors duration-500">
-              <div className="aspect-square overflow-hidden relative">
-                <img 
-                  src="/__mockup/images/rbe-founders-editorial.jpg" 
-                  alt="Tiffany Rebecca Royale" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+              <div className="overflow-hidden" style={{ height: "420px" }}>
+                <img
+                  src="/__mockup/images/rbe-founders-editorial.jpg"
+                  alt="Tiffany Rebecca Royale"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000"
                 />
               </div>
-              <div className="p-8">
-                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Tiffany Rebecca Royale</h3>
-                <p className="text-[#C9A84C] text-sm uppercase tracking-wider font-semibold mb-4">Co-Founder & Executive Producer</p>
-                <p className="text-gray-400 font-light leading-relaxed">
-                  Award-winning actress, MFA graduate, and creative visionary. Tiffany brings fearless storytelling and a deep understanding of the craft to every project.
-                </p>
+              <div className="px-8 pt-6 pb-2">
+                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white mb-1">Tiffany Rebecca Royale</h3>
+                <p className="gold-metallic text-xs uppercase tracking-wider font-semibold inline-block">Co-Founder & Executive Producer</p>
               </div>
             </div>
 
             {/* Malika */}
             <div className="group scroll-reveal delay-200 opacity-0 translate-y-8 bg-[#0F0F0F] border border-[#C9A84C]/30 overflow-hidden hover:border-[#C9A84C] transition-colors duration-500">
-              <div className="aspect-square overflow-hidden relative">
-                <img 
-                  src="/__mockup/images/rbe-founders-carpet.jpg" 
-                  alt="Malika Blessing" 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+              <div className="overflow-hidden" style={{ height: "420px" }}>
+                <img
+                  src="/__mockup/images/rbe-founders-carpet.jpg"
+                  alt="Malika Blessing"
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000"
                 />
               </div>
-              <div className="p-8">
-                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Malika Blessing</h3>
-                <p className="text-[#C9A84C] text-sm uppercase tracking-wider font-semibold mb-4">Co-Founder & Executive Producer</p>
-                <p className="text-gray-400 font-light leading-relaxed">
-                  Award-winning actress, MFA graduate, and creative force. Malika's passion for representation and authentic storytelling drives the heart of Royale Blessing Entertainment.
-                </p>
+              <div className="px-8 pt-6 pb-2">
+                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white mb-1">Malika Blessing</h3>
+                <p className="gold-metallic text-xs uppercase tracking-wider font-semibold inline-block">Co-Founder & Executive Producer</p>
               </div>
             </div>
           </div>
-          
+
+          {/* Joint Bio */}
+          <div className="scroll-reveal opacity-0 translate-y-8 max-w-4xl mx-auto bg-[#0F0F0F] border border-[#C9A84C]/30 p-10 mb-12">
+            <p className="text-gray-300 font-light leading-relaxed text-lg">
+              Founded by real-life best friends and award-winning actresses{" "}
+              <span className="gold-metallic font-semibold inline-block">Tiffany Rebecca Royale</span>{" "}
+              and{" "}
+              <span className="gold-metallic font-semibold inline-block">Malika Blessing</span>
+              , Royale Blessing Entertainment is a Black woman-owned production company born from passion, purpose, and a promise. After meeting as theatre majors at Grambling State University and later earning their MFAs, the duo moved to Los Angeles with a shared vision: to create their own opportunities and tell the kinds of stories they rarely saw on screen. In May 2020, they turned that dream into reality — launching Royale Blessing Entertainment to reclaim their power as artists, creatives, and businesswomen. Spanning theatre, film, television, and digital platforms, every project is rooted in authentic representation, cultural relevance, and fearless storytelling — crafted with intention, integrity, and unapologetic Black excellence. Together, they are redefining what it means to be women behind — and in front — of the camera.
+            </p>
+          </div>
+
           <div className="scroll-reveal opacity-0 translate-y-8 max-w-4xl mx-auto text-center">
-             <p className="font-['Cormorant_Garamond'] italic text-3xl text-[#C9A84C] leading-relaxed">
-               "We don't wait for permission. We create the art we want to see in the world."
-             </p>
+            <p className="font-['Cormorant_Garamond'] italic text-3xl text-[#C9A84C] leading-relaxed">
+              "We don't wait for permission. We create the art we want to see in the world."
+            </p>
           </div>
         </div>
       </section>
@@ -207,22 +306,23 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: "CAKE and eat it too!", type: "Vertical Drama", image: "/__mockup/images/rbe-project-cake.png" },
-              { title: "Tess & Jackie #LifeAF", type: "Comedy Webseries", image: "/__mockup/images/rbe-project-tess-jackie.jpg" },
-              { title: "A Hollywood Holiday", type: "Film", image: "/__mockup/images/rbe-project-hollywood-holiday.png" },
-              { title: "Babygirl & The Brunch Club", type: "Animated Series", image: "/__mockup/images/rbe-project-babygirl.png" },
-              { title: "Willie & Esther", type: "Stage Play", image: "/__mockup/images/rbe-project-willie-esther.jpg" },
-              { title: "EVE", type: "Short Film", image: "/__mockup/images/rbe-project-eve.png" }
+              { title: "CAKE and eat it too!", type: "Vertical Drama", image: "/__mockup/images/rbe-project-cake.png", pos: "center" },
+              { title: "Tess & Jackie #LifeAF", type: "Comedy Webseries", image: "/__mockup/images/rbe-project-tess-jackie.jpg", pos: "center" },
+              { title: "A Hollywood Holiday", type: "Film", image: "/__mockup/images/rbe-project-hollywood-holiday.png", pos: "center" },
+              { title: "Babygirl & The Brunch Club", type: "Animated Series", image: "/__mockup/images/rbe-project-babygirl.png", pos: "center" },
+              { title: "Willie & Esther", type: "Stage Play", image: "/__mockup/images/rbe-project-willie-esther.jpg", pos: "top" },
+              { title: "EVE", type: "Short Film", image: "/__mockup/images/rbe-project-eve.png", pos: "center" }
             ].map((project, idx) => (
-              <div 
-                key={idx} 
+              <div
+                key={idx}
                 className={`scroll-reveal delay-${(idx % 3) * 100} opacity-0 translate-y-8 group relative bg-[#0F0F0F] border border-transparent hover:border-[#C9A84C]/50 transition-all duration-500 cursor-pointer overflow-hidden rounded-sm hover:scale-[1.02]`}
               >
                 <div className="aspect-[2/3] overflow-hidden">
-                  <img 
-                    src={project.image} 
+                  <img
+                    src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover transition-all duration-700"
+                    style={{ objectPosition: project.pos }}
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90" />
@@ -230,7 +330,7 @@ export function Home() {
                   <span className="inline-flex items-center justify-center bg-[#1E4DB7] text-white text-xs uppercase tracking-wider font-semibold px-3 py-1 rounded-full group-hover:bg-[#153a8a] transition-colors">
                     {project.type}
                   </span>
-                  <h3 className="font-['Cormorant_Garamond'] text-2xl text-white font-semibold leading-tight group-hover:text-white transition-colors">{project.title}</h3>
+                  <h3 className="font-['Cormorant_Garamond'] text-2xl text-white font-semibold leading-tight">{project.title}</h3>
                 </div>
               </div>
             ))}
@@ -248,21 +348,25 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-6">
             {[
-              { title: "Casting", desc: "Breakdowns → selects → bookings", icon: Users },
-              { title: "Script Creation & Editing", desc: "Concepts → drafts → punch-ups", icon: BookOpen },
-              { title: "Production Consulting", desc: "Budgets → schedules → risk checks", icon: Film },
-              { title: "Industry & Career Consulting", desc: "Strategy → branding → next steps", icon: Mic },
-              { title: "Acting & Performance Coaching", desc: "On-camera · Stage · Auditioning", icon: Play }
+              { title: "Casting", desc: "Breakdowns, talent selects, and full booking management from start to finish.", icon: Users },
+              { title: "Script Creation & Editing", desc: "From initial concepts to polished drafts — we develop and punch up your story.", icon: BookOpen },
+              { title: "Production Consulting", desc: "Budgets, schedules, and risk checks so your production runs smoothly.", icon: Film },
+              { title: "Industry & Career Consulting", desc: "Strategic branding, career positioning, and industry roadmapping for creatives.", icon: Mic },
+              { title: "Acting & Performance Coaching", desc: "On-camera, stage, and audition coaching tailored to your level and goals.", icon: Play }
             ].map((service, idx) => (
-              <div 
-                key={idx} 
-                className={`scroll-reveal delay-${(idx % 3) * 100} opacity-0 translate-y-8 bg-[#0F0F0F] p-8 border border-[#C9A84C]/30 hover:border-[#C9A84C] transition-colors duration-300 group`}
+              <div
+                key={idx}
+                className={`service-item scroll-reveal delay-${(idx % 3) * 100} opacity-0 translate-y-8`}
               >
-                <service.icon className="w-10 h-10 text-[#C9A84C] mb-6 group-hover:scale-110 transition-transform" />
-                <h4 className="text-xl text-white font-medium mb-3">{service.title}</h4>
-                <p className="text-gray-400 font-light">{service.desc}</p>
+                <div className="flex items-center gap-3 px-7 py-4 border border-[#C9A84C]/40 hover:border-[#C9A84C] bg-[#0F0F0F] hover:bg-[#111a2e] transition-all duration-300 group cursor-default">
+                  <service.icon className="w-5 h-5 text-[#C9A84C] flex-shrink-0" />
+                  <span className="font-['Cormorant_Garamond'] text-xl text-white tracking-wide">{service.title}</span>
+                </div>
+                <div className="service-tooltip">
+                  <p className="text-gray-200 text-sm font-light leading-relaxed">{service.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -279,7 +383,7 @@ export function Home() {
               "Giving back is how we turn gratitude into action — and set the stage for the next generation of artists."
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div className="scroll-reveal opacity-0 translate-y-8 space-y-6 text-lg text-gray-300 font-light leading-relaxed">
               <p>
@@ -292,7 +396,7 @@ export function Home() {
                 Partnering with local schools, we lead youth workshops in acting, bully prevention, etiquette, empowerment, and dramatic theatre arts — building skills, confidence, and community.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 scroll-reveal delay-200 opacity-0 translate-y-8">
               <img src="/__mockup/images/rbe-community-gifts1.jpg" alt="Community Giveback 1" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
               <img src="/__mockup/images/rbe-community-bags1.jpg" alt="Community Giveback 2" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
@@ -307,9 +411,9 @@ export function Home() {
       <section id="performing-arts-cta" className="py-24 px-6 bg-[#0D1A3A] border-y border-[#C9A84C]">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 text-center md:text-left scroll-reveal opacity-0 translate-y-8">
           <div className="flex-shrink-0">
-            <img 
-              src="/__mockup/images/rbe-performing-arts-logo.png" 
-              alt="RBE Performing Arts" 
+            <img
+              src="/__mockup/images/rbe-performing-arts-logo.png"
+              alt="RBE Performing Arts"
               className="h-[160px] w-auto object-contain drop-shadow-2xl"
             />
           </div>
@@ -320,15 +424,12 @@ export function Home() {
             <p className="text-xl text-gray-300 font-light mb-8">
               A division of Royale Blessing Entertainment dedicated to acting education, workshops, coaching, and creative enrichment.
             </p>
-            <Button 
-              asChild
-              size="lg" 
-              className="bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold rounded-none px-8 uppercase tracking-wider"
+            <a
+              href="/__mockup/preview/royale-blessing/PerformingArts"
+              className="inline-flex items-center gap-2 bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold px-8 py-3 uppercase tracking-wider text-sm transition-colors"
             >
-              <a href="/__mockup/preview/royale-blessing/PerformingArts" className="flex items-center gap-2">
-                Explore RBE Performing Arts <ArrowRight className="w-4 h-4" />
-              </a>
-            </Button>
+              Explore RBE Performing Arts <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>
@@ -350,18 +451,11 @@ export function Home() {
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Your Name</label>
-                  <Input 
-                    placeholder="Enter your name" 
-                    className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md"
-                  />
+                  <Input placeholder="Enter your name" className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Your Email</label>
-                  <Input 
-                    type="email" 
-                    placeholder="Enter your email" 
-                    className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md"
-                  />
+                  <Input type="email" placeholder="Enter your email" className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Subject</label>
@@ -380,26 +474,30 @@ export function Home() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-300">Message</label>
-                  <Textarea 
-                    placeholder="How can we help you?" 
-                    rows={4}
-                    className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md resize-none"
-                  />
+                  <Textarea placeholder="How can we help you?" rows={4} className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md resize-none" />
                 </div>
-                <Button className="w-full bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold rounded-none py-6 uppercase tracking-wider">
+                <button
+                  type="submit"
+                  className="w-full bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold py-4 uppercase tracking-wider transition-colors"
+                >
                   Send Message
-                </Button>
+                </button>
               </form>
             </div>
 
             {/* Info */}
-            <div className="flex flex-col justify-center scroll-reveal delay-200 opacity-0 translate-y-8">
-              <a href="mailto:Royaleblessingent@gmail.com" className="inline-flex items-center gap-4 text-2xl text-[#C9A84C] hover:text-white transition-colors mb-12 border-b border-transparent hover:border-white pb-1 w-fit">
-                <Mail className="w-8 h-8" /> Royaleblessingent@gmail.com
-              </a>
+            <div className="flex flex-col justify-center scroll-reveal delay-200 opacity-0 translate-y-8 space-y-8">
+              <div className="space-y-4">
+                <a href="mailto:Royaleblessingent@gmail.com" className="inline-flex items-center gap-4 text-xl text-[#C9A84C] hover:text-white transition-colors border-b border-transparent hover:border-white pb-1">
+                  <Mail className="w-6 h-6 flex-shrink-0" /> Royaleblessingent@gmail.com
+                </a>
+                <a href="tel:+13234883395" className="flex items-center gap-4 text-xl text-[#C9A84C] hover:text-white transition-colors border-b border-transparent hover:border-white pb-1 w-fit">
+                  <Phone className="w-6 h-6 flex-shrink-0" /> 323-488-3395
+                </a>
+              </div>
 
-              <div className="mb-12">
-                <h3 className="text-[#C9A84C] text-sm font-bold tracking-widest uppercase mb-6">Follow Us</h3>
+              <div>
+                <h3 className="gold-metallic text-xs font-bold tracking-widest uppercase mb-6 inline-block">Follow Us</h3>
                 <div className="flex flex-col gap-4">
                   <a href="#" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
                     <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C9A84C]">
@@ -422,8 +520,8 @@ export function Home() {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <p className="font-['Cormorant_Garamond'] italic text-gray-300 text-lg">
+              <div className="space-y-4 border-t border-[#C9A84C]/20 pt-6">
+                <p className="font-['Cormorant_Garamond'] italic text-gray-300 text-lg leading-relaxed">
                   For inquiries regarding script submissions, production services, casting, or consulting, please send a detailed email to our team. Someone from our office will be in touch shortly.
                 </p>
                 <p className="text-xs text-gray-500 font-light uppercase tracking-wider leading-relaxed">

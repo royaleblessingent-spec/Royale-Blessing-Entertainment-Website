@@ -24,3 +24,9 @@ id = "6R5H9R_muWZALTFEwFHVB"
 uri = "file://artifacts/mockup-sandbox/public/images/rbe-community.png"
 type = "image"
 title = "Community workshop"
+
+[[generated]]
+id = "tufVhc-ZhDGrhYh1oiT7F"
+uri = "file://artifacts/mockup-sandbox/public/images/rbe-pa-stage-reading.png"
+type = "image"
+title = "generated_image"
