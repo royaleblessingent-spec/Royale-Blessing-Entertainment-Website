@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "KEW6Zs1Y8ARPJAZe7EQ68"
+uri = "file://artifacts/mockup-sandbox/public/images/rbe-hero.png"
+type = "image"
+title = "Dramatic cinematic stage hero image"
+
+[[generated]]
+id = "QT3HwXhL5R9MdpBvl3R-W"
+uri = "file://artifacts/mockup-sandbox/public/images/rbe-founders.png"
+type = "image"
+title = "Founders portrait in LA"
+
+[[generated]]
+id = "zExPQVKIlcVGG2nP5DMba"
+uri = "file://artifacts/mockup-sandbox/public/images/rbe-production.png"
+type = "image"
+title = "Film production set"
+
+[[generated]]
+id = "6R5H9R_muWZALTFEwFHVB"
+uri = "file://artifacts/mockup-sandbox/public/images/rbe-community.png"
+type = "image"
+title = "Community workshop"
