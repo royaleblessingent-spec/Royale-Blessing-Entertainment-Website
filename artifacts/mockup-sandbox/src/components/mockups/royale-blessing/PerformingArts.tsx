@@ -13,6 +13,7 @@ import {
 export function PerformingArts() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [contactRevealed, setContactRevealed] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState<{ name: string; desc: string } | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -185,25 +186,55 @@ export function PerformingArts() {
             <div className="h-px w-24 bg-[#C9A84C] mx-auto" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: "Intro to Acting", desc: "Build your foundation with core techniques and stage presence" },
-              { name: "Character Study", desc: "Dive deep into character development and motivation" },
-              { name: "Advanced Acting", desc: "Challenge your range with complex scenes and material" },
-              { name: "Scene Study", desc: "Partner work, scene analysis, and live performance" },
-              { name: "Auditioning & Self-Tape Technique", desc: "Industry-ready audition prep for stage and screen" },
-              { name: "School Workshops", desc: "On-site workshops for schools covering acting, empowerment, and bully prevention" },
-              { name: "Private Coaching", desc: "One-on-one coaching tailored to your specific goals" }
+              { name: "Intro to Acting", desc: "A fun and supportive introduction to the fundamentals of acting, including imagination, character creation, stage presence, and performance skills." },
+              { name: "Character Study", desc: "Explore how to build believable characters through script analysis, emotional connection, objectives, and character development techniques." },
+              { name: "Advanced Acting", desc: "Designed for experienced students ready to deepen their craft through advanced scene work, emotional truth, storytelling, and performance techniques." },
+              { name: "Scene Study", desc: "Students work on scripted scenes while developing listening skills, character relationships, blocking, and authentic performance choices." },
+              { name: "Auditioning & Self-Tape Technique", desc: "Learn how to confidently prepare for auditions, create professional self-tapes, interpret sides, and make strong first impressions." },
+              { name: "School Workshops", desc: "Interactive arts-based workshops designed for schools, community groups, and organizations, focusing on creativity, confidence-building, communication, and performance skills." },
+              { name: "Private Coaching", desc: "One-on-one personalized coaching tailored to the student's goals, including audition preparation, acting technique, character development, self-tapes, and career guidance." },
+              { name: "Improv & Comedy", desc: "Learn the art of thinking on your feet through fun theatre games, comedy exercises, character creation, and collaborative storytelling. Students build confidence, creativity, listening skills, and comedic timing while having a blast." }
             ].map((program, idx) => (
               <div
                 key={idx}
-                className={`scroll-reveal delay-${(idx % 4) * 100} opacity-0 translate-y-8 bg-[#0F0F0F] border-l-4 border-[#C9A84C] p-8 hover:bg-[#151515] hover:border-l-8 transition-all duration-300 rounded-r-md group`}
+                onClick={() => setSelectedProgram(program)}
+                className="scroll-reveal opacity-0 translate-y-8 bg-[#0F0F0F] border-l-4 border-[#C9A84C] p-8 hover:bg-[#1a1a1a] hover:border-l-8 transition-all duration-300 rounded-r-md group cursor-pointer"
+                style={{ transitionDelay: `${(idx % 4) * 100}ms` }}
               >
                 <h3 className="font-['Cormorant_Garamond'] text-2xl text-white font-medium mb-3 group-hover:text-[#C9A84C] transition-colors">{program.name}</h3>
-                <p className="text-gray-400 font-light">{program.desc}</p>
+                <p className="text-gray-400 font-light text-sm line-clamp-2">{program.desc}</p>
+                <span className="mt-4 inline-block text-[#C9A84C] text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">Learn More →</span>
               </div>
             ))}
           </div>
+
+          {/* Program Modal */}
+          {selectedProgram && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center px-6"
+              style={{ backgroundColor: "rgba(0,0,0,0.85)" }}
+              onClick={() => setSelectedProgram(null)}
+            >
+              <div
+                className="bg-[#0D1A3A] border border-[#C9A84C]/50 rounded-2xl p-10 max-w-lg w-full relative"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={() => setSelectedProgram(null)}
+                  className="absolute top-4 right-5 text-gray-400 hover:text-white text-2xl leading-none"
+                >×</button>
+                <div className="h-px w-12 bg-[#C9A84C] mb-6" />
+                <h3 className="font-['Cormorant_Garamond'] text-4xl text-white font-semibold mb-5">{selectedProgram.name}</h3>
+                <p className="text-gray-300 font-light leading-relaxed text-lg">{selectedProgram.desc}</p>
+                <button
+                  onClick={() => setSelectedProgram(null)}
+                  className="mt-8 px-8 py-3 border border-[#C9A84C] text-[#C9A84C] rounded-full text-sm tracking-widest uppercase hover:bg-[#C9A84C] hover:text-black transition-all duration-300"
+                >Close</button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -215,7 +246,7 @@ export function PerformingArts() {
               { src: "/__mockup/images/rbe-pa-kids-expressive.png", alt: "Kids Acting Expressively", position: "center" },
               { src: "/__mockup/images/rbe-workshop.jpg", alt: "Workshop Celebration", position: "center" },
               { src: "/__mockup/images/rbe-pa-act.png", alt: "Scene Study", position: "center" },
-              { src: "/__mockup/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts", position: "50% 25%" }
+              { src: "/__mockup/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts", position: "50% 55%" }
             ].map((img, idx) => (
               <div
                 key={idx}
