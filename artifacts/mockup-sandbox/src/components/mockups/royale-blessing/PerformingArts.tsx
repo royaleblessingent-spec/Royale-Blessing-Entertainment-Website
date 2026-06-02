@@ -13,11 +13,12 @@ import {
 export function PerformingArts() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [contactRevealed, setContactRevealed] = useState(false);
-  const [form, setForm] = useState({ name: "", age: "", program: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", age: "", program: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
   const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
+  const resetForm = () => { setSubmitted(false); setForm({ name: "", email: "", phone: "", age: "", program: "", message: "" }); };
   const [selectedProgram, setSelectedProgram] = useState<{ name: string; desc: string } | null>(null);
 
   useEffect(() => {
@@ -318,14 +319,20 @@ export function PerformingArts() {
                 <div className="w-16 h-16 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C] flex items-center justify-center mx-auto mb-6">
                   <span className="text-[#C9A84C] text-2xl">✓</span>
                 </div>
-                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-3">You're on your way!</h3>
-                <p className="text-gray-400 font-light">Thank you, <span className="text-[#C9A84C]">{form.name}</span>. We'll be in touch soon to get you started.</p>
-                <button onClick={() => { setSubmitted(false); setForm({ name: "", age: "", program: "", message: "" }); }} className="mt-8 text-xs text-gray-500 hover:text-[#C9A84C] tracking-widest uppercase transition-colors">Submit another</button>
+                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-3">Inquiry Received!</h3>
+                <p className="text-gray-300 font-light leading-relaxed">
+                  Thank you, <span className="text-[#C9A84C]">{form.name}</span>. We'll follow up at <span className="text-[#C9A84C]">{form.email}</span> within 1–2 business days to confirm your spot and share class details.
+                </p>
+                {form.phone && (
+                  <p className="text-gray-500 text-sm mt-3 font-light">We may also reach you by phone at {form.phone}.</p>
+                )}
+                <button onClick={resetForm} className="mt-8 text-xs text-gray-500 hover:text-[#C9A84C] tracking-widest uppercase transition-colors">Submit another inquiry</button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-2">Enroll Now</h3>
-                <div className="h-px w-10 bg-[#C9A84C] mb-6" />
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-1">Enroll Now</h3>
+                <p className="text-gray-500 text-sm font-light pb-2">Submit your inquiry and we'll reach out to you within 1–2 business days.</p>
+                <div className="h-px w-10 bg-[#C9A84C]" />
 
                 <div>
                   <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Full Name *</label>
@@ -336,33 +343,53 @@ export function PerformingArts() {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Age *</label>
-                  <input
-                    name="age" value={form.age} onChange={handleFormChange} required
-                    placeholder="e.g. 12"
-                    className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Email *</label>
+                    <input
+                      name="email" type="email" value={form.email} onChange={handleFormChange} required
+                      placeholder="you@email.com"
+                      className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Phone <span className="normal-case text-gray-600">(optional)</span></label>
+                    <input
+                      name="phone" type="tel" value={form.phone} onChange={handleFormChange}
+                      placeholder="(xxx) xxx-xxxx"
+                      className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Student Age *</label>
+                    <input
+                      name="age" value={form.age} onChange={handleFormChange} required
+                      placeholder="e.g. 12"
+                      className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Program Interest *</label>
+                    <select
+                      name="program" value={form.program} onChange={handleFormChange} required
+                      className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors text-sm appearance-none"
+                    >
+                      <option value="" disabled>Select…</option>
+                      {["Intro to Acting","Character Study","Advanced Acting","Scene Study","Auditioning & Self-Tape Technique","School Workshops","Private Coaching","Improv & Comedy"].map(p => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Program Interest *</label>
-                  <select
-                    name="program" value={form.program} onChange={handleFormChange} required
-                    className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors text-sm appearance-none"
-                  >
-                    <option value="" disabled>Select a program…</option>
-                    {["Intro to Acting","Character Study","Advanced Acting","Scene Study","Auditioning & Self-Tape Technique","School Workshops","Private Coaching","Improv & Comedy"].map(p => (
-                      <option key={p} value={p}>{p}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Additional Info <span className="normal-case text-gray-600">(optional)</span></label>
+                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Questions or Notes <span className="normal-case text-gray-600">(optional)</span></label>
                   <textarea
                     name="message" value={form.message} onChange={handleFormChange} rows={3}
-                    placeholder="Tell us a bit about yourself or any questions you have…"
+                    placeholder="Tell us about the student, scheduling needs, or any questions…"
                     className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm resize-none"
                   />
                 </div>
@@ -373,6 +400,7 @@ export function PerformingArts() {
                 >
                   Submit Enrollment Inquiry
                 </button>
+                <p className="text-center text-gray-600 text-xs">We'll reply to your email within 1–2 business days.</p>
               </form>
             )}
           </div>
