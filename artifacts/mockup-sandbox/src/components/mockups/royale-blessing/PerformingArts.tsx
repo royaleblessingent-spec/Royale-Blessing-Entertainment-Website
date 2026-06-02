@@ -15,10 +15,32 @@ export function PerformingArts() {
   const [contactRevealed, setContactRevealed] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", age: "", program: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
-  const resetForm = () => { setSubmitted(false); setForm({ name: "", email: "", phone: "", age: "", program: "", message: "" }); };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitError("");
+    try {
+      const res = await fetch("/api/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error((data as { error?: string }).error || "Something went wrong. Please try again.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+  const resetForm = () => { setSubmitted(false); setSubmitError(""); setForm({ name: "", email: "", phone: "", age: "", program: "", message: "" }); };
   const [selectedProgram, setSelectedProgram] = useState<{ name: string; desc: string } | null>(null);
 
   useEffect(() => {
@@ -394,11 +416,18 @@ export function PerformingArts() {
                   />
                 </div>
 
+                {submitError && (
+                  <div className="bg-red-900/30 border border-red-500/40 text-red-300 text-sm px-4 py-3 rounded-lg">
+                    {submitError}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold py-4 rounded-lg tracking-widest uppercase text-sm transition-colors duration-300"
+                  disabled={submitting}
+                  className="w-full bg-[#C9A84C] hover:bg-[#A68531] disabled:opacity-60 disabled:cursor-not-allowed text-black font-semibold py-4 rounded-lg tracking-widest uppercase text-sm transition-colors duration-300"
                 >
-                  Submit Enrollment Inquiry
+                  {submitting ? "Sending…" : "Submit Enrollment Inquiry"}
                 </button>
                 <p className="text-center text-gray-600 text-xs">We'll reply to your email within 1–2 business days.</p>
               </form>
