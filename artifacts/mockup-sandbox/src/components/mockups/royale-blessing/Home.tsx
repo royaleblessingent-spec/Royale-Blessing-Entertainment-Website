@@ -140,7 +140,8 @@ export function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-black/90 backdrop-blur-md border-b border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <a href="#" className="block">
-            <img src="/__mockup/images/rbe-logo.png" alt="RBE Logo" className="h-[40px] w-auto object-contain" />
+            {/* Logo size: was h-[40px], bumped 10% → h-[44px] */}
+            <img src="/__mockup/images/rbe-logo.png" alt="RBE Logo" className="h-[44px] w-auto object-contain" />
           </a>
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium tracking-wider uppercase">
             <a href="#about" className="hover:text-[#C9A84C] transition-colors">About</a>
