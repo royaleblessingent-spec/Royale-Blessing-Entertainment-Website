@@ -506,19 +506,19 @@ export function Home() {
               <div>
                 <h3 className="gold-metallic text-xs font-bold tracking-widest uppercase mb-6 inline-block">Follow Us</h3>
                 <div className="flex flex-col gap-4">
-                  <a href="#" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
+                  <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
                     <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C9A84C]">
                       <Facebook className="w-4 h-4" />
                     </div>
                     <span>Facebook</span>
                   </a>
-                  <a href="#" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
+                  <a href="https://www.instagram.com/royaleblessingentertainment/" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
                     <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C9A84C]">
                       <Instagram className="w-4 h-4" />
                     </div>
                     <span>Instagram</span>
                   </a>
-                  <a href="#" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
+                  <a href="https://www.youtube.com/@royaleblessingent" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-[#C9A84C] transition-colors group w-fit">
                     <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#C9A84C]">
                       <Youtube className="w-4 h-4" />
                     </div>
@@ -546,9 +546,9 @@ export function Home() {
           <img src="/__mockup/images/rbe-logo.png" alt="RBE" className="h-6 opacity-70 hover:opacity-100 transition-opacity" />
           <p>© 2025 Royale Blessing Entertainment · Create · Inspire · Entertain</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-[#C9A84C] transition-colors"><Facebook className="w-4 h-4" /></a>
-            <a href="#" className="hover:text-[#C9A84C] transition-colors"><Instagram className="w-4 h-4" /></a>
-            <a href="#" className="hover:text-[#C9A84C] transition-colors"><Youtube className="w-4 h-4" /></a>
+            <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Facebook className="w-4 h-4" /></a>
+            <a href="https://www.instagram.com/royaleblessingentertainment/" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Instagram className="w-4 h-4" /></a>
+            <a href="https://www.youtube.com/@royaleblessingent" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Youtube className="w-4 h-4" /></a>
           </div>
         </div>
       </footer>

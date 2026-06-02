@@ -272,13 +272,13 @@ export function PerformingArts() {
           </div>
 
           <div className="flex justify-center gap-8 mt-4">
-            <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
+            <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
               <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform" />
             </a>
-            <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
+            <a href="https://www.instagram.com/royaleblessingentertainment/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
               <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
             </a>
-            <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
+            <a href="https://www.youtube.com/@royaleblessingent" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
               <Youtube className="w-5 h-5 group-hover:scale-110 transition-transform" />
             </a>
           </div>
@@ -291,9 +291,9 @@ export function PerformingArts() {
           <img src="/__mockup/images/rbe-logo.png" alt="RBE" className="h-6 opacity-70 hover:opacity-100 transition-opacity" />
           <p>© 2025 Royale Blessing Entertainment · Create · Inspire · Entertain</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-[#C9A84C] transition-colors"><Facebook className="w-4 h-4" /></a>
-            <a href="#" className="hover:text-[#C9A84C] transition-colors"><Instagram className="w-4 h-4" /></a>
-            <a href="#" className="hover:text-[#C9A84C] transition-colors"><Youtube className="w-4 h-4" /></a>
+            <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Facebook className="w-4 h-4" /></a>
+            <a href="https://www.instagram.com/royaleblessingentertainment/" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Instagram className="w-4 h-4" /></a>
+            <a href="https://www.youtube.com/@royaleblessingent" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Youtube className="w-4 h-4" /></a>
           </div>
         </div>
       </footer>
