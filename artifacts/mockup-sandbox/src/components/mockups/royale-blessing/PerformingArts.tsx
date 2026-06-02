@@ -274,7 +274,7 @@ export function PerformingArts() {
               { src: "/__mockup/images/rbe-pa-kids-expressive.png", alt: "Kids Acting Expressively", position: "center" },
               { src: "/__mockup/images/rbe-workshop.jpg", alt: "Workshop Celebration", position: "center" },
               { src: "/__mockup/images/rbe-pa-act.png", alt: "Scene Study", position: "center" },
-              { src: "/__mockup/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts", position: "50% 55%" }
+              { src: "/__mockup/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts", position: "50% 0%" }
             ].map((img, idx) => (
               <div
                 key={idx}
