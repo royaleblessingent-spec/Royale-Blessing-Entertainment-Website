@@ -146,7 +146,7 @@ export function PerformingArts() {
             <div className="scroll-reveal delay-200 opacity-0 translate-y-8">
               <div className="relative aspect-[4/3] overflow-hidden border border-[#C9A84C]/30 p-2 bg-[#0F0F0F]">
                 <img
-                  src="/__mockup/images/rbe-pa-scene-study.png"
+                  src="/__mockup/images/rbe-pa-teens-scene.png"
                   alt="Scene study class"
                   className="w-full h-full object-cover rounded-sm"
                 />
