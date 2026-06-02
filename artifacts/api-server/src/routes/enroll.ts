@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Resend } from "resend";
+import { ReplitConnectors } from "@replit/connectors-sdk";
 
 const router = Router();
 
@@ -17,15 +17,6 @@ router.post("/enroll", async (req, res) => {
     res.status(400).json({ error: "Missing required fields." });
     return;
   }
-
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    req.log.error("RESEND_API_KEY not set");
-    res.status(500).json({ error: "Email service not configured." });
-    return;
-  }
-
-  const resend = new Resend(apiKey);
 
   const html = `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;background:#0D1A3A;color:#fff;border-radius:12px;">
@@ -47,21 +38,33 @@ router.post("/enroll", async (req, res) => {
     </div>
   `;
 
-  const { error } = await resend.emails.send({
-    from: "RBE Performing Arts <onboarding@resend.dev>",
-    to: ["Royaleblessingent@gmail.com"],
-    replyTo: email,
-    subject: `New Enrollment Inquiry — ${program} (${name})`,
-    html,
-  });
+  try {
+    // Resend integration via Replit Connectors — handles auth automatically
+    const connectors = new ReplitConnectors();
+    const response = await connectors.proxy("resend", "/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: "RBE Performing Arts <onboarding@resend.dev>",
+        to: ["royaleblessingent@gmail.com"],
+        reply_to: email,
+        subject: `New Enrollment Inquiry — ${program} (${name})`,
+        html,
+      }),
+    });
 
-  if (error) {
-    req.log.error({ error }, "Resend error");
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}));
+      req.log.error({ errBody }, "Resend API error");
+      res.status(500).json({ error: "Failed to send email. Please try again." });
+      return;
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    req.log.error({ err }, "Enroll route error");
     res.status(500).json({ error: "Failed to send email. Please try again." });
-    return;
   }
-
-  res.json({ success: true });
 });
 
 export default router;
