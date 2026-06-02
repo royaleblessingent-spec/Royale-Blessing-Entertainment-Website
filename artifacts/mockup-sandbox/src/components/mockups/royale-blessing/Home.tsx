@@ -309,8 +309,8 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: "CAKE and eat it too!", type: "Vertical Drama", image: "/__mockup/images/rbe-project-cake.png", pos: "center", scale: 1, fit: "cover" },
-              { title: "Tess & Jackie #LifeAF", type: "Comedy Webseries", image: "/__mockup/images/rbe-project-tess-jackie.jpg", pos: "center", scale: 1, fit: "contain" },
+              { title: "CAKE and eat it too!", type: "Vertical Drama", image: "/__mockup/images/rbe-project-cake.png", pos: "center" },
+              { title: "Tess & Jackie #LifeAF", type: "Comedy Webseries", image: "/__mockup/images/rbe-project-tess-jackie.jpg", pos: "center" },
               { title: "A Hollywood Holiday", type: "Film", image: "/__mockup/images/rbe-project-hollywood-holiday.png", pos: "center" },
               { title: "Babygirl & The Brunch Club", type: "Animated Series", image: "/__mockup/images/rbe-project-babygirl.png", pos: "center" },
               { title: "Willie & Esther", type: "Stage Play", image: "/__mockup/images/rbe-project-willie-esther.jpg", pos: "top" },
@@ -324,12 +324,8 @@ export function Home() {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full transition-all duration-700"
-                    style={{
-                      objectFit: ((project as any).fit ?? "cover") as "cover" | "contain",
-                      objectPosition: project.pos,
-                      transform: `scale(${(project as any).scale ?? 1})`
-                    }}
+                    className="w-full h-full object-cover transition-all duration-700"
+                    style={{ objectPosition: project.pos }}
                   />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-90" />
