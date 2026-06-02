@@ -114,7 +114,7 @@ export function PerformingArts() {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-black/90 backdrop-blur-md border-b border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <a href="/__mockup/preview/royale-blessing/Home" className="block">
-            <img src="/__mockup/images/rbe-logo.png" alt="RBE Logo" className="h-[40px] w-auto object-contain" />
+            <img src="/__mockup/images/rbe-logo.png" alt="RBE Logo" className="h-[51px] w-auto object-contain" />
           </a>
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium tracking-wider uppercase">
             <a href="/__mockup/preview/royale-blessing/Home" className="flex items-center gap-2 text-white hover:text-[#C9A84C] transition-colors">
