@@ -20,7 +20,10 @@ import {
 
 const HERO_IMAGES = [
   "/__mockup/images/rbe-clapperboard.png",
-  "/__mockup/images/rbe-hero.png"
+  "/__mockup/images/rbe-hero.png",
+  "/__mockup/images/rbe-hero-movie-set.png",
+  "/__mockup/images/rbe-hero-tv.png",
+  "/__mockup/images/rbe-hero-ipad.png"
 ];
 
 export function Home() {
