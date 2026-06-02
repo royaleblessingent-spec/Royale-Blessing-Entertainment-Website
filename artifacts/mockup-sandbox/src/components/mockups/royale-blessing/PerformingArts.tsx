@@ -210,37 +210,37 @@ export function PerformingArts() {
       {/* Gallery */}
       <section className="py-32 px-6 bg-[#0D1A3A] border-y border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-6 h-auto md:h-[660px]">
+          <div className="flex flex-col md:flex-row gap-4 overflow-hidden" style={{ height: "560px" }}>
             {/* Left Tall Image */}
-            <div className="w-full md:w-[60%] h-[400px] md:h-full scroll-reveal opacity-0 translate-y-8">
+            <div className="w-full md:w-[60%] h-full overflow-hidden scroll-reveal opacity-0 translate-y-8 rounded-xl border-2 border-[#C9A84C]/30">
               <img
                 src="/__mockup/images/rbe-pa-kids-expressive.png"
                 alt="Kids Acting Expressively"
-                className="w-full h-full object-cover rounded-xl border-2 border-[#C9A84C]/30"
+                className="w-full h-full object-cover"
               />
             </div>
 
             {/* Right — 3 stacked images */}
-            <div className="w-full md:w-[40%] flex flex-col gap-4 h-[900px] md:h-full">
-              <div className="flex-1 scroll-reveal delay-100 opacity-0 translate-y-8">
+            <div className="w-full md:w-[40%] flex flex-col gap-3 h-full min-h-0">
+              <div className="flex-1 min-h-0 overflow-hidden scroll-reveal delay-100 opacity-0 translate-y-8 rounded-xl border-2 border-[#C9A84C]/30">
                 <img
                   src="/__mockup/images/rbe-workshop.jpg"
                   alt="Workshop Celebration"
-                  className="w-full h-full object-cover rounded-xl border-2 border-[#C9A84C]/30"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-1 scroll-reveal delay-200 opacity-0 translate-y-8">
+              <div className="flex-1 min-h-0 overflow-hidden scroll-reveal delay-200 opacity-0 translate-y-8 rounded-xl border-2 border-[#C9A84C]/30">
                 <img
                   src="/__mockup/images/rbe-pa-act.png"
                   alt="Scene Study — Dramatic Performance"
-                  className="w-full h-full object-cover rounded-xl border-2 border-[#C9A84C]/30"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex-1 scroll-reveal delay-300 opacity-0 translate-y-8">
+              <div className="flex-1 min-h-0 overflow-hidden scroll-reveal delay-300 opacity-0 translate-y-8 rounded-xl border-2 border-[#C9A84C]/30">
                 <img
                   src="/__mockup/images/rbe-pa-kid-scripts.jpg"
                   alt="Young Students with Scripts"
-                  className="w-full h-full object-cover rounded-xl border-2 border-[#C9A84C]/30"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
