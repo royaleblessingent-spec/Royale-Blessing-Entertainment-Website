@@ -13,6 +13,11 @@ import {
 export function PerformingArts() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [contactRevealed, setContactRevealed] = useState(false);
+  const [form, setForm] = useState({ name: "", age: "", program: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
   const [selectedProgram, setSelectedProgram] = useState<{ name: string; desc: string } | null>(null);
 
   useEffect(() => {
@@ -265,46 +270,111 @@ export function PerformingArts() {
         </div>
       </section>
 
-      {/* Contact / Enroll */}
-      <section className="py-32 px-6 bg-[#0D1A3A]">
-        <div className="max-w-3xl mx-auto text-center scroll-reveal opacity-0 translate-y-8">
-          <h2 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-6">Ready to Begin Your Journey?</h2>
+      {/* Enroll Now */}
+      <section className="py-32 px-6 bg-[#000000]">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start scroll-reveal opacity-0 translate-y-8">
 
-          <p className="text-gray-300 text-lg mb-10 font-light max-w-xl mx-auto">
-            For class schedules, private coaching, and school workshop inquiries, reach out to our team.
-          </p>
-
-          <button
-            onClick={() => setContactRevealed(prev => !prev)}
-            className="inline-flex items-center gap-3 bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold px-10 py-4 uppercase tracking-wider text-sm mb-8 transition-colors"
-          >
-            Contact Us
-            <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${contactRevealed ? "rotate-180" : ""}`} />
-          </button>
-
-          <div className={`contact-reveal ${contactRevealed ? "open" : ""}`}>
-            <div className="bg-[#0F0F0F] border border-[#C9A84C]/50 p-8 text-left space-y-4 mb-8">
-              <a href="mailto:Royaleblessingent@gmail.com" className="flex items-center gap-3 text-[#C9A84C] hover:text-white transition-colors text-lg">
-                <Mail className="w-5 h-5 flex-shrink-0" />
+          {/* Left — copy */}
+          <div>
+            <p className="text-[#C9A84C] text-xs tracking-[0.3em] uppercase mb-4">Get Started</p>
+            <h2 className="font-['Cormorant_Garamond'] text-5xl md:text-6xl text-white font-semibold mb-6 leading-tight">
+              Ready to Begin<br />Your Journey?
+            </h2>
+            <div className="h-px w-20 bg-[#C9A84C] mb-8" />
+            <p className="text-gray-300 text-lg font-light leading-relaxed mb-10">
+              Fill out the form and our team will reach out with class schedules, availability, and everything you need to get started.
+            </p>
+            <div className="space-y-5">
+              <a href="mailto:Royaleblessingent@gmail.com" className="flex items-center gap-4 text-gray-400 hover:text-[#C9A84C] transition-colors group">
+                <div className="w-10 h-10 rounded-full border border-[#C9A84C]/40 flex items-center justify-center group-hover:border-[#C9A84C] transition-colors">
+                  <Mail className="w-4 h-4" />
+                </div>
                 Royaleblessingent@gmail.com
               </a>
-              <a href="tel:+13234883395" className="flex items-center gap-3 text-[#C9A84C] hover:text-white transition-colors text-lg">
-                <Phone className="w-5 h-5 flex-shrink-0" />
+              <a href="tel:+13234883395" className="flex items-center gap-4 text-gray-400 hover:text-[#C9A84C] transition-colors group">
+                <div className="w-10 h-10 rounded-full border border-[#C9A84C]/40 flex items-center justify-center group-hover:border-[#C9A84C] transition-colors">
+                  <Phone className="w-4 h-4" />
+                </div>
                 323-488-3395
+              </a>
+            </div>
+            <div className="flex gap-5 mt-10">
+              <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">
+                <Facebook className="w-4 h-4" />
+              </a>
+              <a href="https://www.instagram.com/royaleblessingentertainment/" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href="https://www.youtube.com/@royaleblessingent" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gray-400 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all">
+                <Youtube className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          <div className="flex justify-center gap-8 mt-4">
-            <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
-              <Facebook className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
-            <a href="https://www.instagram.com/royaleblessingentertainment/" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
-              <Instagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
-            <a href="https://www.youtube.com/@royaleblessingent" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-gray-300 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all group">
-              <Youtube className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
+          {/* Right — form */}
+          <div className="bg-[#0D1A3A] border border-[#C9A84C]/30 rounded-2xl p-10">
+            {submitted ? (
+              <div className="text-center py-12">
+                <div className="w-16 h-16 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C] flex items-center justify-center mx-auto mb-6">
+                  <span className="text-[#C9A84C] text-2xl">✓</span>
+                </div>
+                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-3">You're on your way!</h3>
+                <p className="text-gray-400 font-light">Thank you, <span className="text-[#C9A84C]">{form.name}</span>. We'll be in touch soon to get you started.</p>
+                <button onClick={() => { setSubmitted(false); setForm({ name: "", age: "", program: "", message: "" }); }} className="mt-8 text-xs text-gray-500 hover:text-[#C9A84C] tracking-widest uppercase transition-colors">Submit another</button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-2">Enroll Now</h3>
+                <div className="h-px w-10 bg-[#C9A84C] mb-6" />
+
+                <div>
+                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Full Name *</label>
+                  <input
+                    name="name" value={form.name} onChange={handleFormChange} required
+                    placeholder="Your full name"
+                    className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Age *</label>
+                  <input
+                    name="age" value={form.age} onChange={handleFormChange} required
+                    placeholder="e.g. 12"
+                    className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Program Interest *</label>
+                  <select
+                    name="program" value={form.program} onChange={handleFormChange} required
+                    className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors text-sm appearance-none"
+                  >
+                    <option value="" disabled>Select a program…</option>
+                    {["Intro to Acting","Character Study","Advanced Acting","Scene Study","Auditioning & Self-Tape Technique","School Workshops","Private Coaching","Improv & Comedy"].map(p => (
+                      <option key={p} value={p}>{p}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-gray-400 tracking-widest uppercase mb-2">Additional Info <span className="normal-case text-gray-600">(optional)</span></label>
+                  <textarea
+                    name="message" value={form.message} onChange={handleFormChange} rows={3}
+                    placeholder="Tell us a bit about yourself or any questions you have…"
+                    className="w-full bg-[#000000] border border-white/10 focus:border-[#C9A84C] text-white px-4 py-3 rounded-lg outline-none transition-colors placeholder-gray-600 text-sm resize-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold py-4 rounded-lg tracking-widest uppercase text-sm transition-colors duration-300"
+                >
+                  Submit Enrollment Inquiry
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
