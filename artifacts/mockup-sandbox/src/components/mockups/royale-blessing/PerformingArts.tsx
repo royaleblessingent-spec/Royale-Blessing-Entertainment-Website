@@ -117,7 +117,7 @@ export function PerformingArts() {
             src="/__mockup/images/rbe-performing-arts-logo.png"
             alt="RBE Performing Arts"
             className="mx-auto mb-8 object-contain drop-shadow-2xl"
-            style={{ width: "304px" }}
+            style={{ width: "365px" }}
           />
           <h2 className="gold-metallic font-semibold tracking-[0.3em] uppercase text-sm md:text-base mb-6 inline-block">
             BLESSING THE WORLD THROUGH ART
