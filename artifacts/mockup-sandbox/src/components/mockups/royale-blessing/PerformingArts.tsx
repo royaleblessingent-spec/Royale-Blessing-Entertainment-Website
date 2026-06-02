@@ -212,10 +212,10 @@ export function PerformingArts() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 gap-4">
             {[
-              { src: "/__mockup/images/rbe-pa-kids-expressive.png", alt: "Kids Acting Expressively" },
-              { src: "/__mockup/images/rbe-workshop.jpg", alt: "Workshop Celebration" },
-              { src: "/__mockup/images/rbe-pa-act.png", alt: "Scene Study" },
-              { src: "/__mockup/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts" }
+              { src: "/__mockup/images/rbe-pa-kids-expressive.png", alt: "Kids Acting Expressively", position: "center" },
+              { src: "/__mockup/images/rbe-workshop.jpg", alt: "Workshop Celebration", position: "center" },
+              { src: "/__mockup/images/rbe-pa-act.png", alt: "Scene Study", position: "center" },
+              { src: "/__mockup/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts", position: "50% 25%" }
             ].map((img, idx) => (
               <div
                 key={idx}
@@ -226,6 +226,7 @@ export function PerformingArts() {
                   src={img.src}
                   alt={img.alt}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                  style={{ objectPosition: img.position }}
                 />
               </div>
             ))}
