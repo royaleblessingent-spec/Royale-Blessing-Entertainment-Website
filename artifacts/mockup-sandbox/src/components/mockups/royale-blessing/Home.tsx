@@ -253,7 +253,7 @@ export function Home() {
             <div className="group scroll-reveal opacity-0 translate-y-8 bg-[#0F0F0F] border border-[#C9A84C]/30 overflow-hidden hover:border-[#C9A84C] transition-colors duration-500">
               <div className="overflow-hidden" style={{ height: "420px" }}>
                 <img
-                  src="/__mockup/images/rbe-founders-editorial.jpg"
+                  src="/__mockup/images/rbe-founders-together.png"
                   alt="Tiffany Rebecca Royale"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000"
                 />
