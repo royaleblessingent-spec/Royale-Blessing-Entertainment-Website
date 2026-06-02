@@ -30,6 +30,33 @@ export function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroFading, setHeroFading] = useState(false);
+  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [contactSubmitting, setContactSubmitting] = useState(false);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [contactError, setContactError] = useState("");
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setContactForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactSubmitting(true);
+    setContactError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contactForm),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error((data as { error?: string }).error || "Something went wrong.");
+      }
+      setContactSubmitted(true);
+    } catch (err) {
+      setContactError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setContactSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -456,41 +483,58 @@ export function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Form */}
             <div className="bg-[#0F0F0F] p-8 border border-[#C9A84C]/30 scroll-reveal opacity-0 translate-y-8">
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Your Name</label>
-                  <Input placeholder="Enter your name" className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md" />
+              {contactSubmitted ? (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C] flex items-center justify-center mx-auto mb-6">
+                    <span className="text-[#C9A84C] text-2xl">✓</span>
+                  </div>
+                  <h3 className="font-['Cormorant_Garamond'] text-3xl text-white font-semibold mb-3">Message Sent!</h3>
+                  <p className="text-gray-400 font-light">Thank you, <span className="text-[#C9A84C]">{contactForm.name}</span>. We'll be in touch at <span className="text-[#C9A84C]">{contactForm.email}</span> soon.</p>
+                  <button onClick={() => { setContactSubmitted(false); setContactForm({ name: "", email: "", subject: "", message: "" }); }} className="mt-8 text-xs text-gray-500 hover:text-[#C9A84C] tracking-widest uppercase transition-colors">Send another</button>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Your Email</label>
-                  <Input type="email" placeholder="Enter your email" className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Subject</label>
-                  <Select>
-                    <SelectTrigger className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus:ring-[#C9A84C] rounded-md">
-                      <SelectValue placeholder="Select a subject" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white">
-                      <SelectItem value="script">Script Submission</SelectItem>
-                      <SelectItem value="production">Production Services</SelectItem>
-                      <SelectItem value="casting">Casting</SelectItem>
-                      <SelectItem value="consulting">Consulting</SelectItem>
-                      <SelectItem value="general">General Inquiry</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-300">Message</label>
-                  <Textarea placeholder="How can we help you?" rows={4} className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md resize-none" />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#C9A84C] hover:bg-[#A68531] text-black font-semibold py-4 uppercase tracking-wider transition-colors"
-                >
-                  Send Message
-                </button>
-              </form>
+              ) : (
+                <form className="space-y-6" onSubmit={handleContactSubmit}>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-300">Your Name *</label>
+                    <Input name="name" value={contactForm.name} onChange={handleContactChange} required placeholder="Enter your name" className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-300">Your Email *</label>
+                    <Input name="email" type="email" value={contactForm.email} onChange={handleContactChange} required placeholder="Enter your email" className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-300">Subject</label>
+                    <Select value={contactForm.subject} onValueChange={(val) => setContactForm(prev => ({ ...prev, subject: val }))}>
+                      <SelectTrigger className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus:ring-[#C9A84C] rounded-md">
+                        <SelectValue placeholder="Select a subject" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white">
+                        <SelectItem value="script">Script Submission</SelectItem>
+                        <SelectItem value="production">Production Services</SelectItem>
+                        <SelectItem value="casting">Casting</SelectItem>
+                        <SelectItem value="consulting">Consulting</SelectItem>
+                        <SelectItem value="general">General Inquiry</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-gray-300">Message *</label>
+                    <Textarea name="message" value={contactForm.message} onChange={handleContactChange} required placeholder="How can we help you?" rows={4} className="bg-[#0F0F0F] border-[#C9A84C]/30 text-white focus-visible:ring-[#C9A84C] rounded-md resize-none" />
+                  </div>
+                  {contactError && (
+                    <div className="bg-red-900/30 border border-red-500/40 text-red-300 text-sm px-4 py-3 rounded-md">
+                      {contactError}
+                    </div>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={contactSubmitting}
+                    className="w-full bg-[#C9A84C] hover:bg-[#A68531] disabled:opacity-60 disabled:cursor-not-allowed text-black font-semibold py-4 uppercase tracking-wider transition-colors"
+                  >
+                    {contactSubmitting ? "Sending…" : "Send Message"}
+                  </button>
+                </form>
+              )}
             </div>
 
             {/* Info */}
