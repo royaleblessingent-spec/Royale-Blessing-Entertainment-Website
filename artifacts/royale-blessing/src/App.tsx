@@ -1,6 +1,15 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { useEffect } from "react";
 import { Home } from "@/pages/Home";
 import { PerformingArts } from "@/pages/PerformingArts";
+
+function ScrollToTop() {
+  const [location] = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location]);
+  return null;
+}
 
 function Router() {
   return (
@@ -23,6 +32,7 @@ function Router() {
 function App() {
   return (
     <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+      <ScrollToTop />
       <Router />
     </WouterRouter>
   );
