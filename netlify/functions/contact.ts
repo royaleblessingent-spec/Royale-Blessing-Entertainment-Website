@@ -6,9 +6,6 @@ import { contactSubmissionsTable } from "../../lib/db/src/schema/contact_submiss
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const db = drizzle(pool);
-
 export const handler: Handler = async (event: HandlerEvent) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
@@ -30,11 +27,21 @@ export const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
+  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+  const db = drizzle(pool);
+
   try {
     await db.insert(contactSubmissionsTable).values({ name, email, subject: subject ?? null, message });
   } catch (dbErr) {
     console.error("DB insert error:", dbErr);
+    await pool.end().catch(() => {});
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Failed to save your message. Please try again or email us directly." }),
+    };
   }
+
+  await pool.end().catch(() => {});
 
   const notifyEmail = process.env.NOTIFY_EMAIL ?? "royaleblessingent@gmail.com";
 

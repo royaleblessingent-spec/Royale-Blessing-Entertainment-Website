@@ -9,6 +9,9 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
+const base = import.meta.env.BASE_URL;
+const img = (filename: string) => `${base}images/${filename}`;
+
 export function PerformingArts() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", age: "", program: "", message: "" });
@@ -110,7 +113,7 @@ export function PerformingArts() {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-black/90 backdrop-blur-md border-b border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="block">
-            <img src="/royale-blessing/images/rbe-logo.png" alt="RBE Logo" className="h-[51px] w-auto object-contain" />
+            <img src={img("rbe-logo.png")} alt="RBE Logo" className="h-[51px] w-auto object-contain" />
           </Link>
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium tracking-wider uppercase">
             <Link href="/" className="flex items-center gap-2 text-white hover:text-[#C9A84C] transition-colors">
@@ -132,7 +135,7 @@ export function PerformingArts() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/65 z-10" />
           <img
-            src="/royale-blessing/images/rbe-theater-masks.png"
+            src={img("rbe-theater-masks.png")}
             alt="Theater Masks"
             className="w-full h-full object-cover"
           />
@@ -140,7 +143,7 @@ export function PerformingArts() {
 
         <div className="relative z-20 max-w-4xl mx-auto px-6 text-center scroll-reveal opacity-0 translate-y-8 flex flex-col items-center">
           <img
-            src="/royale-blessing/images/rbe-performing-arts-logo.png"
+            src={img("rbe-performing-arts-logo.png")}
             alt="RBE Performing Arts"
             className="mx-auto mb-8 object-contain drop-shadow-2xl"
             style={{ width: "365px" }}
@@ -172,7 +175,7 @@ export function PerformingArts() {
             <div className="scroll-reveal delay-200 opacity-0 translate-y-8">
               <div className="relative aspect-[4/3] overflow-hidden border border-[#C9A84C]/30 p-2 bg-[#0F0F0F]">
                 <img
-                  src="/royale-blessing/images/rbe-pa-teens-scene.png"
+                  src={img("rbe-pa-teens-scene.png")}
                   alt="Scene study class"
                   className="w-full h-full object-cover rounded-sm"
                 />
@@ -268,10 +271,10 @@ export function PerformingArts() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 gap-4">
             {[
-              { src: "/royale-blessing/images/rbe-pa-kids-expressive.png", alt: "Kids Acting Expressively", position: "center" },
-              { src: "/royale-blessing/images/rbe-workshop.jpg", alt: "Workshop Celebration", position: "center" },
-              { src: "/royale-blessing/images/rbe-pa-act.png", alt: "Scene Study", position: "center" },
-              { src: "/royale-blessing/images/rbe-pa-kid-scripts.jpg", alt: "Young Students with Scripts", position: "50% 0%" }
+              { src: img("rbe-pa-kids-expressive.png"), alt: "Kids Acting Expressively", position: "center" },
+              { src: img("rbe-workshop.jpg"), alt: "Workshop Celebration", position: "center" },
+              { src: img("rbe-pa-act.png"), alt: "Scene Study", position: "center" },
+              { src: img("rbe-pa-kid-scripts.jpg"), alt: "Young Students with Scripts", position: "50% 0%" }
             ].map((img, idx) => (
               <div
                 key={idx}
@@ -434,7 +437,7 @@ export function PerformingArts() {
       {/* Footer */}
       <footer className="bg-[#000000] py-6 px-6 border-t border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
-          <img src="/royale-blessing/images/rbe-logo.png" alt="RBE" className="h-6 opacity-70 hover:opacity-100 transition-opacity" />
+          <img src={img("rbe-logo.png")} alt="RBE" className="h-6 opacity-70 hover:opacity-100 transition-opacity" />
           <p>© 2025 Royale Blessing Entertainment · Create · Inspire · Entertain</p>
           <div className="flex gap-4">
             <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Facebook className="w-4 h-4" /></a>

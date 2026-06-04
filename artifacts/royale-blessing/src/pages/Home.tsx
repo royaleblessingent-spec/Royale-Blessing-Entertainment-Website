@@ -15,12 +15,15 @@ import {
   ArrowRight
 } from "lucide-react";
 
+const base = import.meta.env.BASE_URL;
+const img = (filename: string) => `${base}images/${filename}`;
+
 const HERO_IMAGES = [
-  "/royale-blessing/images/rbe-clapperboard.png",
-  "/royale-blessing/images/rbe-hero.png",
-  "/royale-blessing/images/rbe-hero-movie-set.png",
-  "/royale-blessing/images/rbe-hero-tv.png",
-  "/royale-blessing/images/rbe-hero-ipad.png"
+  img("rbe-clapperboard.png"),
+  img("rbe-hero.png"),
+  img("rbe-hero-movie-set.png"),
+  img("rbe-hero-tv.png"),
+  img("rbe-hero-ipad.png"),
 ];
 
 export function Home() {
@@ -168,7 +171,7 @@ export function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-black/90 backdrop-blur-md border-b border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <a href="#" className="block">
-            <img src="/royale-blessing/images/rbe-logo.png" alt="RBE Logo" className="h-[51px] w-auto object-contain" />
+            <img src={img("rbe-logo.png")} alt="RBE Logo" className="h-[51px] w-auto object-contain" />
           </a>
           <div className="hidden lg:flex items-center gap-8 text-sm font-medium tracking-wider uppercase">
             <a href="#about" className="hover:text-[#C9A84C] transition-colors">About</a>
@@ -257,7 +260,7 @@ export function Home() {
             <div className="order-1 lg:order-2 scroll-reveal delay-200 opacity-0 translate-y-8">
               <div className="relative overflow-hidden border border-[#C9A84C]/30 p-2 bg-black">
                 <img
-                  src="/royale-blessing/images/rbe-film-masks.png"
+                  src={img("rbe-film-masks.png")}
                   alt="Film projectors and theater masks"
                   className="w-full h-full object-contain"
                   style={{ maxHeight: "500px", display: "block", margin: "0 auto" }}
@@ -280,7 +283,7 @@ export function Home() {
             <div className="group scroll-reveal opacity-0 translate-y-8 bg-[#0F0F0F] border border-[#C9A84C]/30 overflow-hidden hover:border-[#C9A84C] transition-colors duration-500">
               <div className="overflow-hidden" style={{ height: "420px" }}>
                 <img
-                  src="/royale-blessing/images/rbe-founders-together.png"
+                  src={img("rbe-founders-together.png")}
                   alt="Tiffany Rebecca Royale"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000"
                 />
@@ -294,7 +297,7 @@ export function Home() {
             <div className="group scroll-reveal delay-200 opacity-0 translate-y-8 bg-[#0F0F0F] border border-[#C9A84C]/30 overflow-hidden hover:border-[#C9A84C] transition-colors duration-500">
               <div className="overflow-hidden" style={{ height: "420px" }}>
                 <img
-                  src="/royale-blessing/images/rbe-founders-carpet.jpg"
+                  src={img("rbe-founders-carpet.jpg")}
                   alt="Malika Blessing"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-1000"
                 />
@@ -334,12 +337,12 @@ export function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: "CAKE and eat it too!", type: "Vertical Drama", image: "/royale-blessing/images/rbe-project-cake.png", pos: "center", scale: 1, fit: "cover" },
-              { title: "Tess & Jackie #LifeAF", type: "Comedy Webseries", image: "/royale-blessing/images/rbe-project-tess-jackie.jpg", pos: "center", scale: 1, fit: "contain" },
-              { title: "A Hollywood Holiday", type: "Film", image: "/royale-blessing/images/rbe-project-hollywood-holiday.png", pos: "center" },
-              { title: "Babygirl & The Brunch Club", type: "Animated Series", image: "/royale-blessing/images/rbe-project-babygirl.png", pos: "center" },
-              { title: "Willie & Esther", type: "Stage Play", image: "/royale-blessing/images/rbe-project-willie-esther.jpg", pos: "top" },
-              { title: "EVE", type: "Short Film", image: "/royale-blessing/images/rbe-project-eve.png", pos: "center" }
+              { title: "CAKE and eat it too!", type: "Vertical Drama", image: img("rbe-project-cake.png"), pos: "center", scale: 1, fit: "cover" },
+              { title: "Tess & Jackie #LifeAF", type: "Comedy Webseries", image: img("rbe-project-tess-jackie.jpg"), pos: "center", scale: 1, fit: "contain" },
+              { title: "A Hollywood Holiday", type: "Film", image: img("rbe-project-hollywood-holiday.png"), pos: "center" },
+              { title: "Babygirl & The Brunch Club", type: "Animated Series", image: img("rbe-project-babygirl.png"), pos: "center" },
+              { title: "Willie & Esther", type: "Stage Play", image: img("rbe-project-willie-esther.jpg"), pos: "top" },
+              { title: "EVE", type: "Short Film", image: img("rbe-project-eve.png"), pos: "center" }
             ].map((project, idx) => (
               <div
                 key={idx}
@@ -430,10 +433,10 @@ export function Home() {
             </div>
 
             <div className="grid grid-cols-2 gap-4 scroll-reveal delay-200 opacity-0 translate-y-8">
-              <img src="/royale-blessing/images/rbe-community-gifts1.jpg" alt="Community Giveback 1" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
-              <img src="/royale-blessing/images/rbe-community-bags1.jpg" alt="Community Giveback 2" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
-              <img src="/royale-blessing/images/rbe-community-gifts2.jpg" alt="Community Giveback 3" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
-              <img src="/royale-blessing/images/rbe-community-coats.jpg" alt="Community Giveback 4" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
+              <img src={img("rbe-community-gifts1.jpg")} alt="Community Giveback 1" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
+              <img src={img("rbe-community-bags1.jpg")} alt="Community Giveback 2" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
+              <img src={img("rbe-community-gifts2.jpg")} alt="Community Giveback 3" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
+              <img src={img("rbe-community-coats.jpg")} alt="Community Giveback 4" className="w-full aspect-square object-cover border border-[#C9A84C]/30 rounded-sm" />
             </div>
           </div>
         </div>
@@ -444,7 +447,7 @@ export function Home() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 text-center md:text-left scroll-reveal opacity-0 translate-y-8">
           <div className="flex-shrink-0">
             <img
-              src="/royale-blessing/images/rbe-performing-arts-logo.png"
+              src={img("rbe-performing-arts-logo.png")}
               alt="RBE Performing Arts"
               className="h-[160px] w-auto object-contain drop-shadow-2xl"
             />
@@ -600,7 +603,7 @@ export function Home() {
       {/* Footer */}
       <footer className="bg-[#000000] py-6 px-6 border-t border-[#C9A84C]/30">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-sm text-gray-500">
-          <img src="/royale-blessing/images/rbe-logo.png" alt="RBE" className="h-6 opacity-70 hover:opacity-100 transition-opacity" />
+          <img src={img("rbe-logo.png")} alt="RBE" className="h-6 opacity-70 hover:opacity-100 transition-opacity" />
           <p>© 2025 Royale Blessing Entertainment · Create · Inspire · Entertain</p>
           <div className="flex gap-4">
             <a href="https://www.facebook.com/RoyaleBlessingEnt" target="_blank" rel="noreferrer" className="hover:text-[#C9A84C] transition-colors"><Facebook className="w-4 h-4" /></a>
