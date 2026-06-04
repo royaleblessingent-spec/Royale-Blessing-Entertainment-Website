@@ -1,12 +1,12 @@
 import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Home } from "@/pages/Home";
 import { PerformingArts } from "@/pages/PerformingArts";
 
 function ScrollToTop() {
   const [location] = useLocation();
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
   }, [location]);
   return null;
 }
