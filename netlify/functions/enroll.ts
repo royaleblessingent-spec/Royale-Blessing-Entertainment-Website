@@ -38,28 +38,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-  const db = drizzle(pool);
-
-  try {
-    await db.insert(enrollmentSubmissionsTable).values({
-      name,
-      email,
-      phone: phone ?? null,
-      age,
-      program,
-      message: message ?? null,
+  // Save to DB — best-effort, never blocks the email
+  if (process.env.DATABASE_URL) {
+    const pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
     });
-  } catch (dbErr) {
-    console.error("DB insert error:", dbErr);
-    await pool.end().catch(() => {});
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: "Failed to save your inquiry. Please try again or email us directly." }),
-    };
+    try {
+      const db = drizzle(pool);
+      await db.insert(enrollmentSubmissionsTable).values({
+        name,
+        email,
+        phone: phone ?? null,
+        age,
+        program,
+        message: message ?? null,
+      });
+    } catch (dbErr) {
+      console.error("DB insert error (non-fatal):", dbErr);
+    } finally {
+      await pool.end().catch(() => {});
+    }
   }
-
-  await pool.end().catch(() => {});
 
   const notifyEmail = process.env.NOTIFY_EMAIL ?? "royaleblessingent@gmail.com";
 
