@@ -1,0 +1,18 @@
+still didnt work, i asked the agent. why is my site giving users an error when they try and send a message to me through the site? i set up the resend key and redeployed but it still doesnt work? check the code please and help me fix this 4 minutes ago OpenAI Codex T Using Codex CLI with gpt-5.5 Running find /opt/buildhome/.agents/skills/netlify-functions -maxdepth 2 -type f -name SKILL.md -print Using Netlify Functions (backend logic with serverless functions) Docs Running rg --files -g '"'! .git'"' -g '"'!node_modules'"' -g '"'!dist'"' -g '"'!build'"' Reading /opt/buildhome/.agents/skills/netlify-functions/SKILL.md Running rg -n "contact|message|resend|RESEND|send" netlify artifacts lib package.json netlify.toml Idk if they finished or notIt looks like that automated backend agent did start digging into your files, but it didn't finish showing you the actual fix!Since it was searching your Netlify Functions folders, it means your website code uses a hidden backend file to send the email. The "Failed to save your message" error happens when that backend file is expecting a different variable name than RESEND_API_KEY, or your code is trying to send from an email domain that hasn't been approved yet.Let's look at the exact code fixes you need to check:1. Fix the Code's Key NameOpen your project files in your code editor. You need to look inside your backend function file (usually found in a folder like netlify/functions/ or api/).Look for where process.env is written. If your code looks like this:javascript// ❌ WRONG: The code is looking for a different name
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_KEY); 
+Use code with caution.Change it to match the exact name you typed into Netlify:javascript//  CORRECT: This matches your Netlify setup perfectly
+const resend = new Resend(process.env.RESEND_API_KEY); 
+Use code with caution.2. Fix the "From" Address (Crucial for Resend)Resend has strict security rules to prevent spam. If your code tries to send the email using the visitor's email address as the sender, Resend will immediately reject it and cause that error.Look for the .send({ ... }) block in your code. It must be set up like this:javascriptresend.emails.send({
+  // ❌ DO NOT use the user's email input here!
+  //  DO USE the official Resend onboarding email here:
+  from: 'onboarding@resend.dev', 
+  
+  // Put your own personal email here to receive the messages:
+  to: 'your-email@gmail.com', 
+  
+  subject: 'New Contact Form Submission',
+  
+  // Put the user's name and message inside the text area instead:
+  html: `<p>Message from ${userData.name}: ${userData.message}</p>` 
+});
+Use code with caution.How to proceed:Can you copy and paste the code text from the file inside your netlify/functions folder? I will rewrite it for you with the exact fixes so you can just copy-paste it back in!

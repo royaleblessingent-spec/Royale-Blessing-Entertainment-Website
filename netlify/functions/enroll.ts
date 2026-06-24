@@ -2,7 +2,18 @@ import type { Handler, HandlerEvent } from "@netlify/functions";
 import { Resend } from "resend";
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { enrollmentSubmissionsTable } from "../../lib/db/src/schema/enrollment_submissions";
+import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+
+const enrollmentSubmissionsTable = pgTable("enrollment_submissions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  age: text("age").notNull(),
+  program: text("program").notNull(),
+  message: text("message"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
